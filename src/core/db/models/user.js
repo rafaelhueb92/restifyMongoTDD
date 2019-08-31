@@ -35,11 +35,10 @@ userSchema.pre("save", next => {
   });
 });
 
-userSchema.methods.comparePassword = (candidatePassword, cb) => {
+userSchema.methods.comparePassword = function(candidatePassword, cb) {
   bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
     if (err) return cb(err);
     cb(null, isMatch);
   });
 };
-
 module.exports = model("user", userSchema);

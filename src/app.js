@@ -1,9 +1,11 @@
-const routerInstance = require("./routes");
 const restify = require("restify");
+const routes = require("./routes");
+const cors = require("cors");
+const bodyParser = require("body-parser");
 
 class AppController {
   constructor() {
-    this.server = server = restify.createServer({
+    this.server = restify.createServer({
       name: "node-TDD",
       version: "1.0.0"
     });
@@ -12,15 +14,12 @@ class AppController {
   }
 
   middlewares() {
-    this.server.use(restify.acceptParser(server.acceptable));
-    this.server.use(restify.queryParser());
-    this.server.use(restify.CORS());
-    this.server.use(restify.fullResponse());
-    this.server.use(restify.bodyParser());
+    this.server.use(cors());
+    this.server.use(bodyParser.json());
   }
 
   routes() {
-    routerInstance.applyRoutes(this.server);
+    routes(this.server);
   }
 }
 

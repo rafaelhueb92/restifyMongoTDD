@@ -1,17 +1,15 @@
-const Router = require("restify-router").Router;
-const routes = new Router();
 const authMiddleware = require("./app/middlewares/auth");
 const sessionController = require("./app/Controllers/session.controller");
 const userController = require("./app/Controllers/user.controller");
 
-routes.post("/sessions", sessionController.store);
+module.exports = server => {
+  server.post("/sessions", sessionController.store);
 
-routes.use(authMiddleware);
+  server.use(authMiddleware);
 
-routes.get("/user", userController.list);
-routes.get("/user/:id", userController.findById);
-routes.post("/user", userController.insert);
-routes.put("/user", userController.update);
-routes.del("/user", userController.delete);
-
-module.exports = routes;
+  server.get("/user", userController.list);
+  server.get("/user/:id", userController.findById);
+  server.post("/user", userController.insert);
+  server.put("/user", userController.update);
+  server.del("/user", userController.delete);
+};

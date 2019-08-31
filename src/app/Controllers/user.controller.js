@@ -1,12 +1,12 @@
 const User = require("../../core/db/models/user");
-const { abrirConexao, fecharConexao } = require("../../core/db");
+const { openConnection, closeConnection } = require("../../core/db");
+
 class userController {
-    
   execute(action, res) {
-    return abrirConexao()
+    return openConnection()
       .then(() => action)
       .then(result => {
-        fecharConexao();
+        closeConnection();
         return res.json(result);
       })
       .catch(err => res.status(401).json(err));
