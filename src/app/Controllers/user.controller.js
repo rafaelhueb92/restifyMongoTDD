@@ -1,44 +1,48 @@
 const User = require("../../core/db/models/user");
+const { depareObjects } = require("../../core/utils/objects");
 const { openConnection, closeConnection } = require("../../core/db");
 
-class userController {
-  execute(action, res) {
-    return openConnection()
-      .then(() => action)
-      .then(result => {
-        closeConnection();
-        return res.json(result);
-      })
-      .catch(err => res.status(401).json(err));
-  }
+function execute(action, res) {
+  return openConnection()
+    .then(() => action)
+    .then(result => {
+      closeConnection();
+      return res.json(result);
+    })
+    .catch(err => {
+      console.log(err);
+      throw res.json(err);
+    });
+}
 
+class userController {
   list(_, res) {
-    return this.execute(User.find({}), res);
+    return execute(User.find({}), res).catch(err => res.json(err));
   }
 
   findById(req, res) {
     const { id } = req.params;
-    return this.execute(this.model.findById({ _id: id }), res);
+    return execute(User.findById({ _id: id }), res).catch(err => res.json(err));
   }
 
   insert(req, res) {
-    return this.execute(new this.model({ ...req.data }).save(), res);
+    console.log("User", req.body);
+    return execute(new User(req.body).save(), res).catch(err => res.json(err));
   }
 
   update(req, res) {
-    return this.execute(
-      this.model
-        .findById(id)
-        .then(result => depareObjects({ ...req.data }, result))
-        .then(deparedObject => new this.model({ ...deparedObject }).save()),
+    return execute(
+      User.findById(id)
+        .then(result => depareObjects(req.body, result))
+        .then(deparedObject => new User(deparedObject).save()),
       res
-    );
+    ).catch(err => res.json(err));
   }
 
   delete(req, res) {
     const { id } = req.params;
-    return this.execute(
-      this.model.remove(
+    return execute(
+      User.remove(
         { _id: id },
         err =>
           new Promise((resolve, reject) => {
@@ -47,7 +51,7 @@ class userController {
           })
       ),
       res
-    );
+    ).catch(err => res.json(err));
   }
 }
 module.exports = new userController();

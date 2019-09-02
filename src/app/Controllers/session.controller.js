@@ -6,7 +6,7 @@ class sessionController {
     const { email, password } = req.body;
     console.log("Begin Session", email, password);
     return openConnection().then(mongoose =>
-      User.findOne({ where: { email } }).then(user => {
+      User.findOne({ email }).then(user => {
         closeConnection(mongoose);
         return !user
           ? res.json({ message: "User not found" })

@@ -1,0 +1,30 @@
+type user {
+  _id: ID
+  nome: String
+  email: String
+  password: String
+  role: String
+}
+
+input userInput {
+  _id: ID
+  nome: String
+  email: String
+  password: String
+  role: String
+}
+
+type Query {
+  user(id: ID): user
+  users: [user]
+}
+
+type Mutation {
+  newUser(include: userInput!): user
+  alterUser(alter: userInput!): user
+  deleteUser(id: ID): user
+}
+
+type Subscription {
+  newNotification: user
+}

@@ -1,11 +1,11 @@
-const authMiddleware = require("./app/middlewares/auth");
-const sessionController = require("./app/Controllers/session.controller");
-const userController = require("./app/Controllers/user.controller");
+const authMiddleware = require("./middlewares/auth");
+const sessionController = require("./Controllers/session.controller");
+const userController = require("./Controllers/user.controller");
 
 module.exports = server => {
   server.post("/sessions", sessionController.store);
 
-  server.use(authMiddleware);
+  //server.use(authMiddleware);
 
   server.get("/user", userController.list);
   server.get("/user/:id", userController.findById);
