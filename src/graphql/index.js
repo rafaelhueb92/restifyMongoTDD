@@ -1,10 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser-graphql");
 const cors = require("cors");
-const { resolvers, typeDefs } = require("./graphql/resolve");
+const { resolvers, typeDefs } = require("./resolve");
 const { ApolloServer } = require("apollo-server-express");
 const http = require("http");
-const PORT = process.env.PORT || 4000;
 
 class AppController {
   constructor() {
@@ -13,31 +12,21 @@ class AppController {
       typeDefs
     });
     this.app = express();
+    this.httpServer;
     this.middlewares();
   }
 
   middlewares() {
     this.server.use(cors());
     this.server.use(bodyParser.json());
+    this.app.use("*", cors({ origin: `http://localhost:3000` }));
+    this.app.use("/graphql", bodyParser.graphql());
+    this.server.applyMiddleware({
+      app
+    });
+    this.httpServer = http.createServer(app);
+    this.server.installSubscriptionHandlers(httpServer);
   }
 }
 
-module.exports = new AppController().server;
-
-app.use("*", cors({ origin: `http://localhost:3000` }));
-app.use("/graphql", bodyParser.graphql());
-
-server.applyMiddleware({
-  app
-});
-
-const httpServer = http.createServer(app);
-server.installSubscriptionHandlers(httpServer);
-
-httpServer.listen(PORT, () => {
-  console.log(
-    `🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`,
-    "\n",
-    `🚀 Subscriptions ready at ws://localhost:${PORT}${server.subscriptionsPath}`
-  );
-});
+module.exports = new AppController().httpServer;

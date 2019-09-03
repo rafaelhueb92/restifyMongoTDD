@@ -3,11 +3,17 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
+    "test":"mocha",
     "start": "nodemon src/server.js",
     "start-express": "nodemon src/index.express.js"
   },
+  "directories": {
+    "test":"mocha"
+  },
   "devDependencies": {
+    "mocha": "^6.2.0",
     "nodemon": "^1.19.1",
+    "nyc": "^14.1.1",
     "path": "^0.12.7"
   },
   "dependencies": {
