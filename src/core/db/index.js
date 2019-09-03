@@ -1,54 +1,61 @@
 const mongoose = require("mongoose");
 const env = require("../config/env.js");
+const { depareObjects } = require("../utils/objects");
 const options = { useNewUrlParser: true };
 
+const openConnection = () =>
+  mongoose
+    .connect(env.mongooseConnection, options)
+    .then(() => console.log("MongoDb Connected"))
+    .catch(err => {
+      throw err;
+    });
+
+const closeConnection = () =>
+  mongoose
+    .disconnect()
+    .then(() => console.log("MongoDb Disconnected"))
+    .catch(err => console.log(err));
+
+const execute = action =>
+  openConnection()
+    .then(() => action)
+    .then(result => {
+      closeConnection();
+      return result;
+    })
+    .catch(err => {
+      console.log(err);
+      throw err;
+    });
+
 module.exports = {
-  openConnection() {
-    return mongoose
-      .connect(env.mongooseConnection, options)
-      .then(() => console.log("MongoDb Connected"))
-      .catch(err => {
-        throw err;
-      });
-  },
-  closeConnection() {
-    return mongoose
-      .disconnect()
-      .then(() => console.log("MongoDb Disconnected"))
-      .catch(err => console.log(err));
-  },
-  execute(action) {
-    return this.openConnection()
-      .then(() => action)
-      .then(result => {
-        this.closeConnection();
-        return result;
-      })
-      .catch(err => {
-        console.log(err);
-        throw err;
-      });
-  },
+  openConnection,
+  closeConnection,
+  execute,
+
   list(model) {
-    return this.execute(model.find({})).catch(err => {
+    return execute(model.find({})).catch(err => {
       throw err;
     });
   },
 
   findById(model, id) {
-    return this.execute(model.findById({ _id: id })).catch(err => {
-      throw err;
-    });
+    return execute(model.findById({ _id: id }))
+      .then(res => res[0])
+      .catch(err => {
+        throw err;
+      });
   },
 
   insert(Model, arg) {
-    return this.execute(new Model(arg).save()).catch(err => {
+    return execute(new Model(arg).save()).catch(err => {
       throw err;
     });
   },
 
   update(model, arg) {
-    return this.execute(
+    return execute(
       model
         .findById(arg._id)
         .then(modelFind => depareObjects(model, modelFind))
@@ -58,7 +65,7 @@ module.exports = {
     });
   },
   del(model, id) {
-    return this.execute(
+    return execute(
       model.remove(
         { _id: id },
         err =>
@@ -66,8 +73,7 @@ module.exports = {
             if (err) throw reject(err);
             else return resolve({ deleted: true });
           })
-      ),
-      res
+      )
     ).catch(err => {
       throw err;
     });

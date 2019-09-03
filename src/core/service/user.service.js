@@ -1,4 +1,5 @@
 const User = require("../../core/db/models/user");
+
 const { list, findById, insert, update, del } = require("../../core/db");
 
 module.exports = {

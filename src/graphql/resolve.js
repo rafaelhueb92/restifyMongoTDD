@@ -16,17 +16,16 @@ const resolvers = {
   },
   Mutation: {
     incluirUser: (_, { include }) =>
-      User.insert(include).then(user =>
-        pubsub
-          .publish(NOTIFICATION_SUBSCRIPTION_TOPIC, {
-            newNotification: user
-          })
-          .then(() => user)
-      ),
+      User.insert(include).then(userIncluded => {
+        pubsub.publish(NOTIFICATION_SUBSCRIPTION_TOPIC, {
+          newNotification: userIncluded
+        });
+        return userIncluded;
+      }),
     alterarUser: (_, { alter }) =>
       User.update(alter).then(userAltered => {
         pubsub.publish(NOTIFICATION_SUBSCRIPTION_TOPIC, {
-          subStr: JSON.stringify(User)
+          subStr: JSON.stringify(userAltered)
         });
         return userAltered;
       }),
