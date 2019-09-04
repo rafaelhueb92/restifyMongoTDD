@@ -1,0 +1,67 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add baody-parser-graphql cors apollo-server-express http
+
+PATH: 
+  C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\Docker\Docker\Resources\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files\dotnet\;C:\Program Files (x86)\Yarn\bin\;C:\Users\rgabriel\AppData\Local\Microsoft\WindowsApps;C:\Users\rgabriel\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\rgabriel\AppData\Roaming\npm;C:\Program Files\heroku\bin;C:\Users\rgabriel\AppData\Local\atom\bin;C:\Program Files\Docker Toolbox;C:\Users\rgabriel\AppData\Local\Yarn\bin
+
+Yarn version: 
+  1.17.3
+
+Node version: 
+  12.6.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/baody-parser-graphql: Not found
+      at Request.params.callback [as _callback] (C:\Program Files (x86)\Yarn\lib\cli.js:65939:18)
+      at Request.self.callback (C:\Program Files (x86)\Yarn\lib\cli.js:140464:22)
+      at Request.emit (events.js:203:13)
+      at Request.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:141436:10)
+      at Request.emit (events.js:203:13)
+      at IncomingMessage.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:141358:12)
+      at Object.onceWrapper (events.js:291:20)
+      at IncomingMessage.emit (events.js:208:15)
+      at endReadableNT (_stream_readable.js:1154:12)
+      at processTicksAndRejections (internal/process/task_queues.js:77:11)
+
+npm manifest: 
+  {
+    "name": "nodeBasic",
+    "version": "1.0.0",
+    "license": "MIT",
+    "scripts": {
+      "test": "mocha",
+      "test-with-coverage":"nyc --reporter=html mocha",
+      "start": "nodemon src/server.js",
+      "start-express": "nodemon src/index.express.js"
+    },
+    "directories": {
+      "test": "mocha"
+    },
+    "devDependencies": {
+      "chai": "^4.2.0",
+      "mocha": "^6.2.0",
+      "nodemon": "^1.19.1",
+      "nyc": "^14.1.1",
+      "path": "^0.12.7",
+      "supertest": "^4.0.2"
+    },
+    "dependencies": {
+      "bcrypt": "^3.0.6",
+      "body-parser": "^1.19.0",
+      "cors": "^2.8.5",
+      "express": "^4.17.1",
+      "jsonwebtoken": "^8.5.1",
+      "mongoose": "^5.6.10",
+      "restify": "^8.4.0",
+      "restify-router": "^0.5.1"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

@@ -1,6 +1,6 @@
 type user {
   _id: ID
-  nome: String
+  name: String
   email: String
   password: String
   role: String
@@ -8,7 +8,7 @@ type user {
 
 input userInput {
   _id: ID
-  nome: String
+  name: String
   email: String
   password: String
   role: String

@@ -11,25 +11,25 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    User: (_, id) => User.findById(id),
-    Users: () => User.list()
+    user: (_, id) => User.findById(id),
+    users: () => User.list()
   },
   Mutation: {
-    incluirUser: (_, { include }) =>
+    newUser: (_, { include }) =>
       User.insert(include).then(userIncluded => {
         pubsub.publish(NOTIFICATION_SUBSCRIPTION_TOPIC, {
           newNotification: userIncluded
         });
         return userIncluded;
       }),
-    alterarUser: (_, { alter }) =>
+      alterUser: (_, { alter }) =>
       User.update(alter).then(userAltered => {
         pubsub.publish(NOTIFICATION_SUBSCRIPTION_TOPIC, {
           subStr: JSON.stringify(userAltered)
         });
         return userAltered;
       }),
-    excluirUser: (_, { id }) =>
+      deleteUser: (_, { id }) =>
       User.del(id).then(() => {
         const subStr = args.id.toString();
         pubsub.publish(NOTIFICATION_SUBSCRIPTION_TOPIC, { subStr });

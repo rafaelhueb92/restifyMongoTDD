@@ -17,15 +17,14 @@ class AppController {
   }
 
   middlewares() {
-    this.server.use(cors());
-    this.server.use(bodyParser.json());
-    this.app.use("*", cors({ origin: `http://localhost:3000` }));
+    this.app.use("*",cors());
+    //this.app.use("*", cors({ origin: `http://localhost:3000` }));
     this.app.use("/graphql", bodyParser.graphql());
     this.server.applyMiddleware({
-      app
+      app:this.app
     });
-    this.httpServer = http.createServer(app);
-    this.server.installSubscriptionHandlers(httpServer);
+    this.httpServer = http.createServer(this.app);
+    this.server.installSubscriptionHandlers(this.httpServer);
   }
 }
 
