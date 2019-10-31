@@ -2,5 +2,6 @@ node_modules
 package-lock.json
 .nyc_output
 coverage
+env.js
 .env
 handler.js
