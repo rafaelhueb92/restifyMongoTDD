@@ -14,6 +14,8 @@ const userSchema = new Schema(
   }
 );
 
+const repo = require("../repo");
+
 userSchema.pre("save", function(next) {
   next();
 
@@ -42,4 +44,6 @@ userSchema.comparePassword = function(candidatePassword) {
   });
 };
 
-module.exports = model("user", userSchema);
+const Model = model("user", userSchema);
+
+module.exports = repo(Model);

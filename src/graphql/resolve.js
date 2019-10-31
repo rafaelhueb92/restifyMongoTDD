@@ -1,7 +1,7 @@
 const { PubSub } = require("graphql-subscriptions");
 const { gql } = require("apollo-server");
 const fs = require("fs");
-const User = require("../core/service/user.service");
+const User = require("../core/service/user.services");
 const pubsub = new PubSub();
 const NOTIFICATION_SUBSCRIPTION_TOPIC = "Nova Notificação";
 

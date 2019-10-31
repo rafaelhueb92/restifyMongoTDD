@@ -1,11 +1,22 @@
+const jwt = require("jsonwebtoken");
 const User = require("../../core/db/models/user");
-const { openConnection, closeConnection } = require("../../core/db");
+require("dotenv/config");
 
 class sessionController {
-  store(req, res) {
-    const { email, password } = req.body;
-    console.log("Begin Session", email, password);
-    return openConnection().then(mongoose =>
+  store({ body }, res) {
+    const { email, password } = body;
+    return User.findOne({ email }).then(user =>
+      !user
+        ? res.json({ message: "User not found" })
+        : !User.model.comparePassword(password)
+        ? res.json({ message: "Incorrect password" })
+        : res.json({
+            user,
+            token: jwt.sign(user, process.env.JWT_KEY)
+          })
+    );
+
+    /*return openConnection().then(mongoose =>
       User.findOne({ email }).then(user => {
         closeConnection(mongoose);
         return !user
@@ -14,10 +25,10 @@ class sessionController {
           ? res.json({ message: "Incorrect password" })
           : res.json({
               user,
-              token: user.generateToken()
+              token: jwt.sign(user, process.env.JWT_KEY)
             });
       })
-    );
+    ); */
   }
 }
 
