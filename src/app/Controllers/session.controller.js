@@ -1,23 +1,13 @@
-const User = require("../../core/db/models/user");
-const { openConnection, closeConnection } = require("../../core/db");
+const sessionService = require("../../core/service/session.services");
 
 class sessionController {
   store(req, res) {
     const { email, password } = req.body;
     console.log("Begin Session", email, password);
-    return openConnection().then(mongoose =>
-      User.findOne({ email }).then(user => {
-        closeConnection(mongoose);
-        return !user
-          ? res.json({ message: "User not found" })
-          : !User.comparePassword(password)
-          ? res.json({ message: "Incorrect password" })
-          : res.json({
-              user,
-              token: user.generateToken()
-            });
-      })
-    );
+    return sessionService.store(email, password).then(resp => {
+      if (resp.message) return res.status(401).json(resp);
+      else return res.json(resp);
+    });
   }
 }
 

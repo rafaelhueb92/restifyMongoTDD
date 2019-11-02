@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "test": "mocha",
-    "test-with-coverage": "nyc --reporter=html mocha",
+    "test-with-coverage": "nyc --reporter=html test/**/*.test.js mocha",
     "start": "nodemon src/server.js",
     "start-express": "nodemon src/index.express.js"
   },

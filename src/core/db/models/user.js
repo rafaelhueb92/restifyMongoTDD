@@ -1,5 +1,4 @@
 const { Schema, model } = require("mongoose"),
-  bcrypt = require("bcrypt"),
   SALT_WORK_FACTOR = 10;
 
 const userSchema = new Schema(
@@ -34,12 +33,5 @@ userSchema.pre("save", function(next) {
     });
   });
 });
-
-userSchema.comparePassword = function(candidatePassword) {
-  bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
-    if (err) return cb(err);
-    return isMatch;
-  });
-};
 
 module.exports = model("user", userSchema);

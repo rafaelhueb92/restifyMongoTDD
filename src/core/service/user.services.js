@@ -1,6 +1,6 @@
-const User = require("../../core/db/models/user");
+const User = require("../db/models/user");
 
-const { list, findById, insert, update, del } = require("../../core/db");
+const { list, findById, insert, update, del } = require("../db");
 
 module.exports = {
   list() {
