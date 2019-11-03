@@ -7,9 +7,8 @@ module.exports = (req, res, next) => {
 
   const authHeader = req.headers.authorization;
 
-  if (!authHeader) {
+  if (!authHeader) 
     return res.send({ message: "Token not provided" });
-  }
 
   const [, token] = authHeader.split(" ");
 

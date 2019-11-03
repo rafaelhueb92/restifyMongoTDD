@@ -1,6 +1,6 @@
+const bcrypt = require("bcrypt");
 const { Schema, model } = require("mongoose"),
   SALT_WORK_FACTOR = 10;
-
 const userSchema = new Schema(
   {
     name: String,
@@ -13,8 +13,9 @@ const userSchema = new Schema(
   }
 );
 
+const repo = require("../repo");
+
 userSchema.pre("save", function(next) {
-  next();
 
   // only hash the password if it has been modified (or is new)
   if (!this.isModified("password")) return next();
@@ -34,4 +35,6 @@ userSchema.pre("save", function(next) {
   });
 });
 
-module.exports = model("user", userSchema);
+const Model = model("user", userSchema);
+//module.exports = Model;
+module.exports = repo(Model);

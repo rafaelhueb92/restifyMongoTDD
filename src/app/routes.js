@@ -5,7 +5,7 @@ const userController = require("./Controllers/user.controller");
 module.exports = server => {
   server.post("/sessions", sessionController.store);
 
-  //server.use(authMiddleware);
+  server.use(authMiddleware);
 
   server.get("/user", userController.list);
   server.get("/user/:id", userController.findById);

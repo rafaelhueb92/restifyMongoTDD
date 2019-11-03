@@ -7,21 +7,20 @@ const http = require("http");
 
 class AppController {
   constructor() {
+    this.httpServer;
     this.server = new ApolloServer({
       resolvers,
       typeDefs
     });
     this.app = express();
-    this.httpServer;
     this.middlewares();
   }
 
   middlewares() {
-    this.app.use("*",cors());
-    //this.app.use("*", cors({ origin: `http://localhost:3000` }));
+    this.app.use("*", cors());
     this.app.use("/graphql", bodyParser.graphql());
     this.server.applyMiddleware({
-      app:this.app
+      app: this.app
     });
     this.httpServer = http.createServer(this.app);
     this.server.installSubscriptionHandlers(this.httpServer);
